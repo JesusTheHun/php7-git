@@ -23,6 +23,10 @@
 #define PHP_GIT_EXTNAME "git"
 #define PHP_GIT_VERSION "0.1alpha"
 
+#include "git2.h"
+
+#include <stdint.h>
+
 #ifndef HAVE_GIT_CLASS_WORKING_DIRECTORY
 #   include <classes/working_directory.h>
 #endif

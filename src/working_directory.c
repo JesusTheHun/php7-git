@@ -1,6 +1,14 @@
 #ifndef HAVE_WORKING_DIRECTORY
 #define HAVE_WORKING_DIRECTORY
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "php.h"
+#include "php_ini.h"
+#include "ext/standard/info.h"
+
 char * void phpgit_working_directory_get_branch(git_repository *repo, int format) {
     int error = 0;
     const char *branch = NULL;
@@ -26,4 +34,17 @@ char * void phpgit_working_directory_get_branch(git_repository *repo, int format
         }
 
     git_reference_free(head);
+}
+
+
+void php_indexed_init(void) {
+    zend_class_entry ce;
+    zend_object_handlers *zh;
+
+    INIT_CLASS_ENTRY(ce, "WorkingDirectory", git_working_directory_methods);
+    WorkingDirectory_ce = zend_register_internal_class(&ce);
+
+    zh = zend_get_std_object_handlers();
+
+    memcpy(&php_gitwd_handlers, zh, sizeof(zend_object_handlers));
 }

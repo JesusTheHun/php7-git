@@ -28,24 +28,22 @@
 #include "php_git.h"
 
 
-
 static int le_git;
-
-
-
-
 
 
 
 PHP_MINIT_FUNCTION(git)
 {
-	return SUCCESS;
+    git_libgit2_init(); /* libgit2 initialization */
+    php_indexed_init();
+    return SUCCESS;
 }
 
 
 PHP_MSHUTDOWN_FUNCTION(git)
 {
-	return SUCCESS;
+    git_libgit2_shutdown(); /* libgit2 shutdown */
+    return SUCCESS;
 }
 
 
@@ -53,44 +51,44 @@ PHP_MSHUTDOWN_FUNCTION(git)
 PHP_RINIT_FUNCTION(git)
 {
 #if defined(COMPILE_DL_GIT) && defined(ZTS)
-	ZEND_TSRMLS_CACHE_UPDATE();
+    ZEND_TSRMLS_CACHE_UPDATE();
 #endif
-	return SUCCESS;
+    return SUCCESS;
 }
 
 
 
 PHP_RSHUTDOWN_FUNCTION(git)
 {
-	return SUCCESS;
+    return SUCCESS;
 }
 
 
 PHP_MINFO_FUNCTION(git)
 {
-	php_info_print_table_start();
-	php_info_print_table_header(2, "git support", "enabled");
-	php_info_print_table_end();
+    php_info_print_table_start();
+    php_info_print_table_header(2, "git support", "enabled");
+    php_info_print_table_end();
 
 }
 
 
 const zend_function_entry git_functions[] = {
-	PHP_FE_END
+    PHP_FE_END
 };
 
 
 zend_module_entry git_module_entry = {
-	STANDARD_MODULE_HEADER,
-	"git",
-	git_functions,
-	PHP_MINIT(git),
-	PHP_MSHUTDOWN(git),
-	PHP_RINIT(git),	
-	PHP_RSHUTDOWN(git),
-	PHP_MINFO(git),
-	PHP_GIT_VERSION,
-	STANDARD_MODULE_PROPERTIES
+    STANDARD_MODULE_HEADER,
+    "git",
+    git_functions,
+    PHP_MINIT(git),
+    PHP_MSHUTDOWN(git),
+    PHP_RINIT(git),
+    PHP_RSHUTDOWN(git),
+    PHP_MINFO(git),
+    PHP_GIT_VERSION,
+    STANDARD_MODULE_PROPERTIES
 };
 
 
