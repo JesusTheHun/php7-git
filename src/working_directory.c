@@ -1,39 +1,39 @@
 #ifndef HAVE_WORKING_DIRECTORY
 #define HAVE_WORKING_DIRECTORY
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+#include "php_git.h"
 
-#include "php.h"
-#include "php_ini.h"
-#include "ext/standard/info.h"
+enum {
+  FORMAT_DEFAULT   = 0,
+  FORMAT_LONG      = 1,
+  FORMAT_SHORT     = 2,
+  FORMAT_PORCELAIN = 3,
+};
 
-char * void phpgit_working_directory_get_branch(git_repository *repo, int format) {
+const char * phpgit_working_directory_get_branch(git_repository *repo, int format) {
     int error = 0;
     const char *branch = NULL;
     git_reference *head = NULL;
 
     error = git_repository_head(&head, repo);
 
-    if (error == GIT_EUNBORNBRANCH || error == GIT_ENOTFOUND)
+    if (error == GIT_EUNBORNBRANCH || error == GIT_ENOTFOUND) {
         zend_throw_exception("Exception", "Branch not found", 404);
-    else if (!error) {
+    } else if (!error) {
         branch = git_reference_shorthand(head);
-    } else
+    } else {
+        zend_throw_exception("Exception", "Failed to get current branch", 500);
+    }
 
-
-    if (format == FORMAT_LONG)
-        printf("# On branch %s\n", branch ? branch : "Not currently on any branch.");
-        zend_throw_exception("Exception", "Not currently on any branch", 0);
-    else
-        if (branch) {
-             RETURN_NEW_STR(branch);
+    if (branch) {
+         return branch;
+    } else {
+        if (format == FORMAT_LONG) {
+            zend_throw_exception("Exception", "Not currently on any branch", 0);
         } else {
             zend_throw_exception("Exception", "HEAD (no branch)", 1);
         }
-
-    git_reference_free(head);
+    }
 }
 
 

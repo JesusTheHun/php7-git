@@ -4,6 +4,7 @@
 PHP_METHOD(WorkingDirectory, getBranch);
 
 ZEND_BEGIN_ARG_INFO(WorkingDirectory_getBranch, 0)
+ZEND_END_ARG_INFO()
 
 
 

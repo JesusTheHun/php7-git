@@ -23,9 +23,16 @@
 #define PHP_GIT_EXTNAME "git"
 #define PHP_GIT_VERSION "0.1alpha"
 
-#include "git2.h"
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
-#include <stdint.h>
+#include "php.h"
+#include "php_ini.h"
+#include "zend.h"
+#include "ext/standard/info.h"
+
+#include "git2.h"
 
 #ifndef HAVE_GIT_CLASS_WORKING_DIRECTORY
 #   include <classes/working_directory.h>
@@ -33,3 +40,5 @@
 
 extern zend_module_entry git_module_entry;
 #define phpext_git_ptr &git_module_entry
+
+#endif
