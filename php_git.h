@@ -34,9 +34,20 @@
 
 #include "git2.h"
 
-#ifndef HAVE_GIT_CLASS_WORKING_DIRECTORY
-#   include <classes/working_directory.h>
+/* Some common stuff */
+
+void phpgit_init(void);
+
+
+/* Let's include class def */
+
+#ifndef HAVE_GIT_CLASS_WORKING_DIRECTORY_H
+#include <classes/working_directory.h>
 #endif
+
+
+
+
 
 extern zend_module_entry git_module_entry;
 #define phpext_git_ptr &git_module_entry
