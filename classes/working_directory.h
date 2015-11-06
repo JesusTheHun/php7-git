@@ -20,7 +20,6 @@ typedef struct _php_working_directory_t {
 zend_class_entry *WorkingDirectory_ce;
 
 /* proto */
-const char * phpgit_working_directory_get_branch(git_repository *repo, int format);
 PHP_METHOD(WorkingDirectory, __construct);
 PHP_METHOD(WorkingDirectory, getBranch);
 

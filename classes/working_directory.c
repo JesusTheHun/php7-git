@@ -1,5 +1,4 @@
-#ifndef HAVE_GIT_CLASS_WORKING_DIRECTORY
-#define HAVE_GIT_CLASS_WORKING_DIRECTORY
+#include "classes/working_directory.h"
 
 #define PHP_GIT_WORKING_DIRECTORY_FETCH_FROM(o)     ((php_working_directory_t*) (((char*)o) - XtOffsetOf(php_working_directory_t, std)))
 #define PHP_GIT_WORKING_DIRECTORY_FETCH(z)          PHP_GIT_WORKING_DIRECTORY_FETCH_FROM(Z_OBJ_P(z)) /* }}} */
@@ -62,5 +61,3 @@ zend_function_entry git_working_directory_methods[] = {
     PHP_ME(WorkingDirectory, getBranch, WorkingDirectory_getBranch_arginfo, ZEND_ACC_PUBLIC)
     {NULL, NULL, NULL}
 };
-
-#endif
