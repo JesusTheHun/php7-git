@@ -27,9 +27,11 @@ zend_class_entry *WorkingDirectory_ce;
 
 /* proto */
 const char * phpgit_working_directory_get_branch(git_repository *repo, int format);
+PHP_METHOD(WorkingDirectory, __construct);
+PHP_METHOD(WorkingDirectory, getBranch);
 
 
-
+/* arginfos */
 
 ZEND_BEGIN_ARG_INFO_EX(WorkingDirectory_construct_arginfo, 0, 0, 1)
 	ZEND_ARG_TYPE_INFO(0, repoPath, IS_STRING, 1)
@@ -39,9 +41,15 @@ ZEND_BEGIN_ARG_INFO(WorkingDirectory_getBranch_arginfo, 0)
 ZEND_END_ARG_INFO()
 
 
+#else
+# ifndef HAVE_GIT_CLASS_WORKING_DIRECTORY
+# define HAVE_GIT_CLASS_WORKING_DIRECTORY
 
-extern zend_function_entry git_working_directory_methods[];
-
+zend_function_entry git_working_directory_methods[] = {
+    PHP_ME(WorkingDirectory, __construct, WorkingDirectory_construct_arginfo, ZEND_ACC_PUBLIC)
+    PHP_ME(WorkingDirectory, getBranch, WorkingDirectory_getBranch_arginfo, ZEND_ACC_PUBLIC)
+    {NULL, NULL, NULL}
+};
 
 /*****************/
 /* CLASS METHODS */
@@ -71,18 +79,20 @@ PHP_METHOD(WorkingDirectory, getBranch)
 {
     php_working_directory_t *wd;
     git_repository *repo;
+    const char *branch;
+    zend_string *zbranch;
 
     wd = PHP_GIT_WORKING_DIRECTORY_FETCH_FROM(Z_OBJ_P(getThis()));
     repo = wd->repo;
 
-    ZVAL_STR(return_value, phpgit_working_directory_get_branch(repo, FORMAT_SHORT));
+    branch = (const char *) phpgit_working_directory_get_branch(repo, FORMAT_SHORT);
+
+    if (branch != NULL) {
+        zbranch = zend_string_init(branch, strlen(branch), 0);
+        RETURN_STR(zbranch);
+    } else {
+        RETURN_FALSE;
+    }
 }
-
-/* Association of methods with the class */
-zend_function_entry git_working_directory_methods[] = {
-    PHP_ME(WorkingDirectory, __construct, WorkingDirectory_construct_arginfo, ZEND_ACC_PUBLIC)
-    PHP_ME(WorkingDirectory, getBranch, WorkingDirectory_getBranch_arginfo, ZEND_ACC_PUBLIC)
-    {NULL, NULL, NULL}
-};
-
+# endif
 #endif

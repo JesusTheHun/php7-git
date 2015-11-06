@@ -37,6 +37,9 @@
 /* Some common stuff */
 
 void phpgit_init(void);
+void phpgit_throw_exception_on_libgit_error(int error);
+/* Association of methods with the class */
+extern zend_function_entry git_working_directory_methods[];
 
 
 /* Let's include class def */

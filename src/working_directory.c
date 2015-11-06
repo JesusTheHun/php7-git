@@ -15,15 +15,13 @@ const char * phpgit_working_directory_get_branch(git_repository *repo, int forma
         zend_throw_exception("Exception", "Failed to get current branch", 500);
     }
 
-    if (branch) {
-         return branch;
-    } else {
+    if (!branch) {
         if (format == FORMAT_LONG) {
             zend_throw_exception("Exception", "Not currently on any branch", 0);
         } else {
             zend_throw_exception("Exception", "HEAD (no branch)", 1);
         }
     }
-}
 
-#endif
+    return branch;
+}
