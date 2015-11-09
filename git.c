@@ -1,4 +1,5 @@
 #include "php_git.h"
+#include "git2.h"
 
 void phpgit_init(void) {
 
@@ -33,6 +34,7 @@ void phpgit_throw_exception_on_libgit_error(int error) {
 
 PHP_MINIT_FUNCTION(git)
 {
+    /*
     git_libgit2_init(); /* libgit2 initialization */
     phpgit_init();
     return SUCCESS;
@@ -41,6 +43,7 @@ PHP_MINIT_FUNCTION(git)
 
 PHP_MSHUTDOWN_FUNCTION(git)
 {
+    /*
     git_libgit2_shutdown(); /* libgit2 shutdown */
     return SUCCESS;
 }
