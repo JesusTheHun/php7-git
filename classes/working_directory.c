@@ -1,4 +1,5 @@
 #include "classes/working_directory.h"
+#include "git2.h"
 
 #define PHP_GIT_WORKING_DIRECTORY_FETCH_FROM(o)     ((php_working_directory_t*) (((char*)o) - XtOffsetOf(php_working_directory_t, std)))
 #define PHP_GIT_WORKING_DIRECTORY_FETCH(z)          PHP_GIT_WORKING_DIRECTORY_FETCH_FROM(Z_OBJ_P(z)) /* }}} */
@@ -19,10 +20,11 @@ ZEND_END_ARG_INFO()
 PHP_METHOD(WorkingDirectory, __construct)
 {
     const char *repoPath;
+    int *repoPathLength;
     git_repository *repo;
     php_working_directory_t *wd;
 
-    if (zend_parse_parameters(ZEND_NUM_ARGS(), "s", &repoPath) != SUCCESS) {
+    if (zend_parse_parameters(ZEND_NUM_ARGS(), "s", &repoPath, &repoPathLength) != SUCCESS) {
         return;
     }
 
