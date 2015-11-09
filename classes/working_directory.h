@@ -1,6 +1,13 @@
 #ifndef HAVE_GIT_CLASS_WORKING_DIRECTORY_H
 #define HAVE_GIT_CLASS_WORKING_DIRECTORY_H
 
+#include "php.h"
+#include "php_ini.h"
+#include "zend.h"
+#include "ext/standard/info.h"
+
+#include "git2.h"
+
 enum {
   FORMAT_DEFAULT   = 0,
   FORMAT_LONG      = 1,
