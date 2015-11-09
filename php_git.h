@@ -20,13 +20,11 @@ void phpgit_init(void);
 void phpgit_throw_exception_on_libgit_error(int error);
 /* Association of methods with the class */
 
-
+/* Include atomic methods definition */
+#include src/working_directory.h
 
 /* Let's include class def */
-
-#ifndef HAVE_GIT_CLASS_WORKING_DIRECTORY_H
-#include <classes/working_directory.h>
-#endif
+#include classes/working_directory.h
 
 
 extern zend_module_entry git_module_entry;
